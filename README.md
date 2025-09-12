@@ -6,3 +6,10 @@ Test-Driven Development.
 
 # Video Demo
 [connect_four_tdd.webm](https://github.com/user-attachments/assets/3096b6f9-bcb0-441b-a504-16bafc346887)
+
+# Reflections
+This project revealed to me the benefits of testing in remaining confident in the code as 
+development progresses, allowing for easy extension and refactoring. That said, I barely discovered
+a nasty bug during play testing that slipped through my tests. I suppose then that tests can't 
+always protect you from what you don't anticipate could go wrong or oversights in the design and 
+code.

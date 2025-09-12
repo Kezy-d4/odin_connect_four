@@ -3,38 +3,25 @@ require_relative "player"
 
 # Represents a game of Connect Four between two players
 class Game
+  attr_reader :board
+
   def initialize(board, player1, player2)
     @board = board
     @player1 = player1
     @player2 = player2
   end
 
-  def play # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    activate_first_mover
-    loop do
-      system("clear")
-      puts "#{active_player.id}, it's your turn!\n\n"
-      puts "Drop your next token by inputting the number above your desired column.\n\n"
-      @board.render
-      print "Your input?: "
-      column_index = player_input
-      @board.drop_token_in_column(column_index, active_player.token)
+  def over?
+    active_player_result = active_player_wins?
+    active_player_result || draw?(active_player_result)
+  end
 
-      if @board.any_winning_line?(active_player.token, @board.most_recent_token_coordinates(column_index))
-        system("clear")
-        puts "#{active_player.id} wins!\n\n"
-        @board.render
-        return
-      elsif @board.full?
-        system("clear")
-        puts "It's a draw!\n\n"
-        @board.render
-        return
-      end
+  def active_player_wins?
+    @board.any_winning_line?(active_player.token)
+  end
 
-      switch_active_player
-      system("clear")
-    end
+  def draw?(active_player_result)
+    !active_player_result && @board.full?
   end
 
   def active_player

@@ -38,52 +38,58 @@ class AdjacentLines
     @cell_coordinates.last
   end
 
-  # The cell coordinates being evaluated are implicit in each of the following
-  # lines.
   def bottom_vertical
-    [[x_coordinate, y_coordinate - 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate, y_coordinate - 1],
      [x_coordinate, y_coordinate - 2],
      [x_coordinate, y_coordinate - 3]]
   end
 
   def top_vertical
-    [[x_coordinate, y_coordinate + 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate, y_coordinate + 1],
      [x_coordinate, y_coordinate + 2],
      [x_coordinate, y_coordinate + 3]]
   end
 
   def left_horizontal
-    [[x_coordinate - 1, y_coordinate],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate - 1, y_coordinate],
      [x_coordinate - 2, y_coordinate],
      [x_coordinate - 3, y_coordinate]]
   end
 
   def right_horizontal
-    [[x_coordinate + 1, y_coordinate],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate + 1, y_coordinate],
      [x_coordinate + 2, y_coordinate],
      [x_coordinate + 3, y_coordinate]]
   end
 
   def bottom_left_diagonal
-    [[x_coordinate - 1, y_coordinate - 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate - 1, y_coordinate - 1],
      [x_coordinate - 2, y_coordinate - 2],
      [x_coordinate - 3, y_coordinate - 3]]
   end
 
   def top_right_diagonal
-    [[x_coordinate + 1, y_coordinate + 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate + 1, y_coordinate + 1],
      [x_coordinate + 2, y_coordinate + 2],
      [x_coordinate + 3, y_coordinate + 3]]
   end
 
   def top_left_diagonal
-    [[x_coordinate - 1, y_coordinate + 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate - 1, y_coordinate + 1],
      [x_coordinate - 2, y_coordinate + 2],
      [x_coordinate - 3, y_coordinate + 3]]
   end
 
   def bottom_right_diagonal
-    [[x_coordinate + 1, y_coordinate - 1],
+    [[x_coordinate, y_coordinate],
+     [x_coordinate + 1, y_coordinate - 1],
      [x_coordinate + 2, y_coordinate - 2],
      [x_coordinate + 3, y_coordinate - 3]]
   end

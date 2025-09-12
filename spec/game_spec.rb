@@ -141,4 +141,80 @@ describe Game do
     end
   end
   # rubocop:enable all
+
+  describe "#active_player_wins?" do
+    before do
+      allow(first_player).to receive_messages(active: true, token: "🔴")
+      allow(second_player).to receive(:active).and_return(false)
+    end
+
+    context "when the active player has won" do
+      before { allow(board).to receive(:any_winning_line?).with("🔴").and_return(true) }
+
+      it "returns true" do
+        result = game.active_player_wins?
+        expect(result).to be(true)
+      end
+    end
+
+    context "when the active player has not won" do
+      before { allow(board).to receive(:any_winning_line?).with("🔴").and_return(false) }
+
+      it "returns false" do
+        result = game.active_player_wins?
+        expect(result).to be(false)
+      end
+    end
+  end
+
+  describe "#draw?" do
+    before { allow(board).to receive(:full?).and_return(true) }
+
+    context "when the board is full, but the active player has won" do
+      it "returns false" do
+        active_player_result = true
+        result = game.draw?(active_player_result)
+        expect(result).to be(false)
+      end
+    end
+
+    context "when the board is full and the active player has not won" do
+      it "returns true" do
+        active_player_result = false
+        result = game.draw?(active_player_result)
+        expect(result).to be(true)
+      end
+    end
+  end
+
+  describe "over?" do
+    before do
+      allow(first_player).to receive_messages(active: true, token: "🔴")
+      allow(second_player).to receive(:active).and_return(false)
+    end
+
+    context "when either the active player has won or the game has ended in a draw" do
+      before do
+        allow(board).to receive(:any_winning_line?).with("🔴").and_return(true)
+        allow(board).to receive(:full?).and_return(false)
+      end
+
+      it "returns true" do
+        result = game.over?
+        expect(result).to be(true)
+      end
+    end
+
+    context "when the active player has not won and the game has not ended in a draw" do
+      before do
+        allow(board).to receive(:any_winning_line?).with("🔴").and_return(false)
+        allow(board).to receive(:full?).and_return(false)
+      end
+
+      it "returns false" do
+        result = game.over?
+        expect(result).to be(false)
+      end
+    end
+  end
 end

@@ -112,33 +112,63 @@ describe Board do
     end
   end
 
-  describe "#any_winning_line" do
-    context "when there is no winning line adjacent to the given coordinates" do
-      subject(:board_no_win) { described_class.new(Array.new(Board::WIDTH) { empty_column }) }
+  # rubocop:disable all RSpec/MultipleMemoizedHelpers
+  describe "#any_winning_line?" do 
+    let(:red_cells) { ["(🔴)", "(🔴)", "(🔴)", "(🔴)", "(🔴)", "(🔴)"] }
+    let(:blue_cells) { ["(🔵)", "(🔵)", "(🔵)", "(🔵)", "(🔵)", "(🔵)"] }
+    let(:empty_cells) { ["(  )", "(  )", "(  )", "(  )", "(  )", "(  )"] }
 
-      before do
-        empty_cells = ["(  )", "(  )", "(  )", "(  )", "(  )", "(  )"]
-        allow(empty_column).to receive(:cells).and_return(empty_cells)
-      end
+    context "when there is a winning line on the board for the red token" do
+      subject(:board_red_winner) { described_class.new(columns) }
 
-      it "returns false" do
-        result = board_no_win.any_winning_line?("🔴", [0, 0])
-        expect(result).to be(false)
+      before { allow(full_column).to receive(:cells).and_return(red_cells) }
+
+      it "returns true" do
+        result = board_red_winner.any_winning_line?("🔴")
+        expect(result).to be(true)
       end
     end
 
-    context "when there is a winning line adjacent to the given coordinates" do
-      subject(:board_win) { described_class.new(Array.new(Board::WIDTH - 1) { empty_column }.unshift(full_column)) }
+    context "when there is a winning line on the board for the blue token" do
+      subject(:board_blue_winner) { described_class.new(columns) }
 
-      before do
-        win_cells = ["(🔴)", "(🔴)", "(🔴)", "(🔴)", "(  )", "(  )"]
-        allow(full_column).to receive(:cells).and_return(win_cells)
-      end
+      before { allow(full_column).to receive(:cells).and_return(blue_cells) }
 
       it "returns true" do
-        result = board_win.any_winning_line?("🔴", [0, 0])
+        result = board_blue_winner.any_winning_line?("🔵")
         expect(result).to be(true)
       end
+    end
+
+    context "when there is no winning line for the given token" do
+      subject(:board_no_winner) { described_class.new(Array.new(Board::WIDTH) { empty_column }) }
+
+      before { allow(empty_column).to receive(:cells).and_return(empty_cells) }
+
+      it "returns false" do
+        result = board_no_winner.any_winning_line?("🔵")
+        expect(result).to be(false)
+      end
+    end
+  end
+  # rubocop:enable all
+
+  describe "#generate_all_cell_coordinates" do
+    subject(:board_all_coordinates) { described_class.new(columns) }
+
+    it "returns an array with a length of 42" do
+      result = board_all_coordinates.generate_all_cell_coordinates.length
+      expect(result).to eq(42)
+    end
+
+    it "the first element of the array is [0, 0]" do
+      result = board_all_coordinates.generate_all_cell_coordinates.first
+      expect(result).to eq([0, 0])
+    end
+
+    it "the last element of the array is [6, 5]" do
+      result = board_all_coordinates.generate_all_cell_coordinates.last
+      expect(result).to eq([6, 5])
     end
   end
 end

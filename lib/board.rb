@@ -11,13 +11,15 @@ class Board
     @columns = columns
   end
 
-  def any_winning_line?(token, cell_coordinates)
-    AdjacentLines.new(cell_coordinates).select_in_bounds_lines.any? do |line|
-      line.all? do |coordinates|
-        x = coordinates.first
-        y = coordinates.last
-        cell = @columns[x].cells[y]
-        cell == "(#{token})"
+  def any_winning_line?(token)
+    generate_all_cell_coordinates.any? do |cell_coordinates|
+      AdjacentLines.new(cell_coordinates).select_in_bounds_lines.any? do |line|
+        line.all? do |coordinates|
+          x = coordinates.first
+          y = coordinates.last
+          cell = @columns[x].cells[y]
+          cell == "(#{token})"
+        end
       end
     end
   end
@@ -52,5 +54,15 @@ class Board
       end
       2.times { puts }
     end
+  end
+
+  def generate_all_cell_coordinates
+    all_coordinates = []
+    Board::WIDTH.times do |width_index|
+      Column::HEIGHT.times do |height_index|
+        all_coordinates << [width_index, height_index]
+      end
+    end
+    all_coordinates
   end
 end

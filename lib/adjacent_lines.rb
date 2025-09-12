@@ -1,6 +1,8 @@
 require_relative "board"
 require_relative "column"
 
+# Gathers the in-bounds lines adjacent to the given coordinates of a cell on a
+# Connect Four board
 class AdjacentLines
   def initialize(cell_coordinates)
     @cell_coordinates = cell_coordinates

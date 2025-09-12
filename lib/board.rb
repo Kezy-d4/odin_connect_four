@@ -1,6 +1,7 @@
 require_relative "column"
 require_relative "adjacent_lines"
 
+# Represents a Connect Four board
 class Board
   WIDTH = 7
 

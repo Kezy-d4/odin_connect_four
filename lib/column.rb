@@ -1,3 +1,4 @@
+# Represents a single column of a Connect Four board
 class Column
   HEIGHT = 6
 

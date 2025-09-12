@@ -1,6 +1,7 @@
 require_relative "board"
 require_relative "player"
 
+# Represents a game of Connect Four between two players
 class Game
   def initialize(board, player1, player2)
     @board = board

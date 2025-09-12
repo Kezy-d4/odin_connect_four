@@ -1,3 +1,4 @@
+# Represents a Connect Four player
 class Player
   attr_reader :token, :active
 

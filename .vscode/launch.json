@@ -11,7 +11,8 @@
       "request": "launch",
       "script": "${file}",
       "args": [],
-      "askParameters": true
+      "askParameters": true,
+      "useTerminal": true
     },
     {
       "type": "rdbg",

@@ -1,4 +1,5 @@
 require_relative "column"
+require_relative "adjacent_lines"
 
 class Board
   WIDTH = 7
@@ -7,6 +8,17 @@ class Board
 
   def initialize(columns = Array.new(WIDTH) { Column.new })
     @columns = columns
+  end
+
+  def any_winning_line?(token, cell_coordinates)
+    AdjacentLines.new(cell_coordinates).select_in_bounds_lines.any? do |line|
+      line.all? do |coordinates|
+        x = coordinates.first
+        y = coordinates.last
+        cell = @columns[x].cells[y]
+        cell == "(#{token})"
+      end
+    end
   end
 
   def full?
@@ -19,6 +31,14 @@ class Board
 
   def drop_token_in_column(column_index, token)
     @columns[column_index].drop_token(token)
+  end
+
+  def most_recent_token_coordinates(column_index)
+    return if @columns[column_index].empty?
+
+    x_coordinate = column_index
+    y_coordinate = @columns[column_index].most_recent_token_index
+    [x_coordinate, y_coordinate]
   end
 
   def render
